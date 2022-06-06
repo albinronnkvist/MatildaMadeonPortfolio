@@ -1,0 +1,16 @@
+﻿@page "/contact"
+
+<PageTitle>Kontakt | Matilda Madeon</PageTitle>
+
+<BreadCrumbs Crumbs="_crumbs" />
+<MudText Typo="Typo.h1">Kontakt</MudText>
+
+<MudText Typo="Typo.body1">Neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.</MudText>
+
+@code {
+    private List<BreadcrumbItem> _crumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Start", href: "/"),
+        new BreadcrumbItem("Kontakt", href: null, disabled: true)
+    };
+}

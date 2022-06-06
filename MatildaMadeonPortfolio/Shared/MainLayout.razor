@@ -1,17 +1,139 @@
 ﻿@inherits LayoutComponentBase
+@inject HttpClient Http
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider Theme="CustomTheme" />
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<MudLayout>
+    <MudAppBar>
+        <MudLink Href="/" Style="width: 30px; height: 30px;">
+            <img 
+                src="/images/m.svg" 
+                alt="MM" 
+            />
+        </MudLink>
+        <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+            <MudStack Row="true" Class="ml-6">
+                <MudMenu 
+                    Label="Arbeten" 
+                    EndIcon="@Icons.Filled.KeyboardArrowDown" 
+                    IconColor="Color.Secondary" 
+                    FullWidth="true" 
+                    ActivationEvent="@MouseEvent.MouseOver" 
+                    AnchorOrigin="Origin.BottomCenter" 
+                    TransformOrigin="Origin.TopCenter"
+                    Style="@($"background:{CustomTheme.Palette.Background};")"
+                >
+                    <MudMenuItem Href="/theater">TEATER</MudMenuItem>
+                    <MudMenuItem Href="/movies">FILM</MudMenuItem>
+                    <MudMenuItem Href="/other">ÖVRIGT</MudMenuItem>
+                </MudMenu>
+                <MudButton Variant="Variant.Text" Href="/about">Om mig</MudButton>
+                <MudButton Variant="Variant.Text" Href="/contact">Kontakt</MudButton>
+            </MudStack>
+        </MudHidden>
+        <MudSpacer />
+        <MudIconButton 
+            Icon="@Icons.Material.Filled.Menu" 
+            Color="Color.Inherit" 
+            Edge="Edge.Start" 
+            OnClick="@(() => OpenDrawer(Anchor.End))" 
+        />
+    </MudAppBar>
+    <MudDrawer 
+        @bind-Open="@open" 
+        Anchor="@anchor" 
+        Elevation="1" 
+        Variant="@DrawerVariant.Temporary"
+        Style="@($"background:{CustomTheme.Palette.Background};")"
+    >
+        <MudDrawerHeader>
+            <MudText 
+                Typo="Typo.h6" 
+                Style="@($"color:{CustomTheme.Palette.Primary};")"
+            >
+                Matilda Madeon
+            </MudText>
+        </MudDrawerHeader>
+        <MudNavMenu Bordered="true">
+            <MudNavGroup Title="Arbeten" Expanded="true">
+                <MudNavLink Href="/theater">Teater</MudNavLink>
+                <MudNavLink Href="/movies">Film</MudNavLink>
+                <MudNavLink Href="/other">Övrigt</MudNavLink>
+            </MudNavGroup>
+            <MudNavLink Href="/about">Om mig</MudNavLink>
+            <MudNavLink Href="/contact">Kontakt</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
 
-        <article class="content px-4">
+    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+        <MudMainContent Style="margin-left: 24px; min-height: 100vh;">
             @Body
-        </article>
-    </main>
-</div>
+        </MudMainContent>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+        <MudMainContent Style="margin-left: 16px; min-height: 100vh;">
+            @Body
+        </MudMainContent>
+    </MudHidden>
+
+    <Footer />
+</MudLayout>
+
+
+@code{
+    MudTheme CustomTheme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Primary = "#000",
+            Secondary = "#424242",
+            AppbarBackground = "#faf9f7",
+            AppbarText = "#000000",
+            White = "#faf9f7",
+            Background = "#faf9f7",
+            Black = "000"
+        },
+        Typography = new Typography()
+        {
+            Default = new Default()
+            {
+                FontFamily = new[] { "proxima-nova", "josefin-sans", "sans-serif" }
+            },
+            H1 = new H1()
+            {
+                FontFamily = new[] { "josefin-sans", "sans-serif" }
+            },
+            H2 = new H2()
+            {
+                FontFamily = new[] { "josefin-sans", "sans-serif" }
+            },
+            H3 = new H3()
+            {
+                FontFamily = new[] { "josefin-sans", "sans-serif" }
+            },
+            H4 = new H4()
+            {
+                FontFamily = new[] { "josefin-sans", "sans-serif" }
+            },
+            H5 = new H5()
+            {
+                FontFamily = new[] { "josefin-sans", "sans-serif" }
+            },
+            H6 = new H6()
+            {
+                FontFamily = new[] { "josefin-sans", "sans-serif" }
+            }
+        }
+    };
+
+    bool open = false;
+    Anchor anchor;
+
+    void OpenDrawer(Anchor anchor)
+    {
+        open = true;
+        this.anchor = anchor;
+    }
+}
